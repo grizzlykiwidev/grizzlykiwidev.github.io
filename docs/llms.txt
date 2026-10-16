@@ -5,6 +5,8 @@
 ## Products
 - [Agent Rules Starter (free)](https://grizzlykiwi.gumroad.com/l/rdubay): general Cursor rules, Next.js + Supabase rule, Godot 4 GDScript rule (Godot 3 → 4 table), AGENTS.md and CLAUDE.md templates, 10 prompts.
 - [Agent Rules Starter Pack (US$19 early bird)](https://grizzlykiwi.gumroad.com/l/xgdajx): 12 Cursor rules across 9 stacks, testing and git rules, pre-filled AGENTS.md templates, 30 prompts, 3 workflow guides, changelog and tested-with versions.
+- [Godot 4 Agent-Ready 2D Platformer Template (US$15; US$9 with code LAUNCH9 until 23 Oct 2026)](https://grizzlykiwi.gumroad.com/l/prfejt): typed Godot 4.7 platformer with AGENTS.md, CLAUDE.md and Cursor rules for the project, agent recipes and prompts, and a one-command headless smoke test. Web demo on [itch.io](https://grizzlykiwidev.itch.io/godot-4-agent-ready-2d-platformer-template).
+- [Agent-Ready Game Dev Bundle (US$29)](https://grizzlykiwi.gumroad.com/l/jhzfba): the Agent Rules Starter Pack plus the Godot 4 platformer template.
 
 ## Source
 - [Awesome Cursor Rules (free, MIT)](https://github.com/grizzlykiwidev/awesome-cursor-rules): free copy-paste Cursor .mdc rules, AGENTS.md and CLAUDE.md templates for Next.js, React, Tailwind v4, TypeScript, Python, FastAPI, Express 5, Unity 6 and Godot 4.
