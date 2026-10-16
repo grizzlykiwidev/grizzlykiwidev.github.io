@@ -1,0 +1,59 @@
+---
+description: Godot 4.x GDScript conventions; prevents Godot 3 syntax
+globs: project.godot, **/*.gd, **/*.tscn
+alwaysApply: false
+---
+
+# Godot 4 GDScript
+
+## Godot 4 syntax only (agents often emit Godot 3)
+| Godot 3 (wrong) | Godot 4 (use) |
+|---|---|
+| `export var speed = 200` | `@export var speed := 200.0` |
+| `onready var x = $X` | `@onready var x: Node2D = $X` |
+| `yield(get_tree().create_timer(1), "timeout")` | `await get_tree().create_timer(1.0).timeout` |
+| `connect("pressed", self, "_on_pressed")` | `pressed.connect(_on_pressed)` |
+| `emit_signal("died")` | `died.emit()` |
+| `KinematicBody2D` / `Spatial` | `CharacterBody2D` / `Node3D` |
+| `move_and_slide(velocity, Vector2.UP)` | set `velocity`, then `move_and_slide()` |
+| `tool` | `@tool` |
+| `instance()` | `instantiate()` |
+
+## Style
+- Static typing everywhere: `var hp: int = 100`, `func take_damage(amount: int) -> void:`. Use `:=` when the type is obvious.
+- Order: `class_name`, `extends`, signals, enums, consts, `@export`, vars, `@onready`, built-ins (`_ready`, `_process`...), public, private (`_prefix`).
+- snake_case for files, funcs, vars; PascalCase for `class_name` and nodes; CONSTANT_CASE for consts.
+- Declare signals with typed args: `signal health_changed(new_value: int)`.
+
+## Architecture
+- "Call down, signal up": parents call children's methods; children emit signals. Avoid `get_parent()` chains and absolute `/root/...` paths.
+- Use `%UniqueName` nodes or `@export` node references instead of fragile `$A/B/C` paths.
+- Autoloads only for truly global state (save system, audio bus, event bus). Keep them small.
+- Physics movement in `_physics_process(delta)`; visuals/UI in `_process`. Use Input actions from the Input Map, not raw keycodes.
+- Data in `Resource` subclasses (`class_name ItemData extends Resource`) instead of dictionaries.
+- Don't edit `.tscn`/`.tres` by hand beyond trivial changes; describe editor steps instead.
+
+## Example
+```gdscript
+class_name Player
+extends CharacterBody2D
+
+signal died
+
+@export var speed := 220.0
+@export var max_hp := 3
+var hp: int
+
+func _ready() -> void:
+	hp = max_hp
+
+func _physics_process(_delta: float) -> void:
+	var dir := Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	velocity = dir * speed
+	move_and_slide()
+
+func take_damage(amount: int) -> void:
+	hp = max(hp - amount, 0)
+	if hp == 0:
+		died.emit()
+```

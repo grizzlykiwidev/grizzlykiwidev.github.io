@@ -1,0 +1,28 @@
+---
+description: Core working agreement for the AI agent on every task
+alwaysApply: true
+---
+
+# How to work in this repo
+
+## Before coding
+- Read the files you will change and their nearest tests before editing. Never guess an API that exists in the repo; search for it.
+- Check `package.json` / `pyproject.toml` / lockfiles for real framework versions and write code for THOSE versions.
+- For anything non-trivial (>1 file or >50 lines), state a short plan first: files to touch, approach, how you'll verify.
+- If requirements are ambiguous, ask one focused question instead of inventing behaviour.
+
+## While coding
+- Make the smallest change that solves the task. No drive-by refactors, renames or formatting of unrelated code.
+- Follow existing patterns in the codebase (naming, folder layout, error handling) over your own preferences.
+- Do not add a dependency without saying why and checking an existing one can't do it.
+- Never hardcode secrets, API keys or tokens. Use env vars and update `.env.example`.
+- Never silence errors (`catch {}`, `# type: ignore`, `as any`, `@ts-ignore`) to make something "work". Fix the cause or flag it.
+- Do not delete or weaken tests to make them pass.
+
+## After coding
+- Run the project's typecheck, lint and relevant tests; fix what you broke. If you couldn't run them, say so.
+- Summarise: what changed, why, how it was verified, and anything left undone or risky.
+
+## Never without explicit approval
+- Destructive commands (`rm -rf`, `git push --force`, `git reset --hard`, dropping tables, DB resets).
+- Editing generated files, lockfiles by hand, CI config, or migrations that already ran.

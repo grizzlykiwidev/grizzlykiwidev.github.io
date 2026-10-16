@@ -1,0 +1,40 @@
+---
+description: Next.js App Router + Supabase conventions (auth, data access, server/client split)
+globs: app/**/*.ts, app/**/*.tsx, src/**/*.ts, src/**/*.tsx, middleware.ts, proxy.ts, lib/**/*.ts, utils/supabase/**
+alwaysApply: false
+---
+
+# Next.js (App Router, 15+) + Supabase
+
+## Next.js
+- Use the App Router (`app/`). Never create `pages/` routes or use `getServerSideProps` / `getStaticProps`.
+- Components are Server Components by default. Add `"use client"` only for state, effects, event handlers or browser APIs, and push it to the smallest leaf component.
+- Fetch data in Server Components or Route Handlers, not in `useEffect`.
+- Mutations: Server Actions (`"use server"`) with input validated by zod. Call `revalidatePath`/`revalidateTag` after writes.
+- In Next.js 15+, `params`, `searchParams`, `cookies()` and `headers()` are async: `const { id } = await params`.
+- Only `NEXT_PUBLIC_*` env vars reach the browser. Never prefix a secret with it.
+
+## Supabase
+- Use `@supabase/ssr` (`createServerClient` / `createBrowserClient`). `@supabase/auth-helpers-nextjs` is deprecated; never import it.
+- Keep two factories: `utils/supabase/server.ts` (cookies-based, for Server Components/Actions/Route Handlers) and `utils/supabase/client.ts` (browser). Refresh the session in `middleware.ts` (renamed `proxy.ts` in Next.js 16; use whichever your version expects).
+- On the server, authorise with `supabase.auth.getUser()` (verifies the JWT), not `getSession()` (reads unverified cookie data).
+- Row Level Security is ON for every table in `public`. Every new table ships with a migration that enables RLS and adds policies, e.g. `using ((select auth.uid()) = user_id)`.
+- The service-role key is server-only, never in client code or `NEXT_PUBLIC_*`, and only for admin tasks that must bypass RLS.
+- Schema changes go in `supabase/migrations/*.sql` via `supabase migration new`; never edit the remote DB by hand. Regenerate types with `supabase gen types typescript` and use the `Database` type in clients.
+- Always check `{ data, error }`; throw or return a typed error, never ignore `error`.
+
+## Example
+```ts
+// app/notes/page.tsx (Server Component)
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
+
+export default async function NotesPage() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
+  const { data: notes, error } = await supabase.from("notes").select("id, title").order("created_at", { ascending: false });
+  if (error) throw error;
+  return <ul>{notes.map((n) => <li key={n.id}>{n.title}</li>)}</ul>;
+}
+```
