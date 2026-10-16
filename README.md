@@ -1,6 +1,6 @@
 # Agent Rules Starter: free Cursor rules, AGENTS.md and CLAUDE.md templates
 
-Drop-in rules and prompts that make AI coding agents (Cursor, Claude Code, Codex, Windsurf, Copilot) write code for your stack **as it is today**: current APIs, your conventions, fewer repeated mistakes. Made by [Grizzly Kiwi Dev](https://sbeehre.github.io/agent-rules-starter/).
+Drop-in rules and prompts that make AI coding agents (Cursor, Claude Code, Codex, Windsurf, Copilot) write code for your stack **as it is today**: current APIs, your conventions, fewer repeated mistakes. Made by [Grizzly Kiwi Dev](https://grizzlykiwidev.github.io/).
 
 ## What's inside
 | File | What it does | Works with |
@@ -20,7 +20,7 @@ Checked 16 Oct 2026 against Cursor's `.mdc` rules format, Next.js 15–16, `@sup
 3. Using both Cursor and Claude Code? Put `@AGENTS.md` at the top of `CLAUDE.md` so you only maintain one file.
 
 ```bash
-npx degit sbeehre/agent-rules-starter my-rules && cp -r my-rules/.cursor my-rules/AGENTS.md ./
+npx degit grizzlykiwidev/grizzlykiwidev.github.io my-rules && cp -r my-rules/.cursor my-rules/AGENTS.md ./
 ```
 
 ## Get it as a download

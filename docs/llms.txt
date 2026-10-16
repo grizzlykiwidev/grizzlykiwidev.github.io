@@ -7,10 +7,10 @@
 - [Agent Rules Starter Pack (US$19 early bird)](https://grizzlykiwi.gumroad.com/l/xgdajx): 12 Cursor rules across 9 stacks, testing and git rules, pre-filled AGENTS.md templates, 30 prompts, 3 workflow guides, changelog and tested-with versions.
 
 ## Source
-- [GitHub repo with the free files](https://github.com/sbeehre/agent-rules-starter)
-- [Godot 4 GDScript rule](https://github.com/sbeehre/agent-rules-starter/blob/main/.cursor/rules/godot4-gdscript.mdc)
-- [Next.js + Supabase rule](https://github.com/sbeehre/agent-rules-starter/blob/main/.cursor/rules/nextjs-supabase.mdc)
-- [AGENTS.md template](https://github.com/sbeehre/agent-rules-starter/blob/main/AGENTS.md)
+- [GitHub repo with the free files](https://github.com/grizzlykiwidev/grizzlykiwidev.github.io)
+- [Godot 4 GDScript rule](https://github.com/grizzlykiwidev/grizzlykiwidev.github.io/blob/main/.cursor/rules/godot4-gdscript.mdc)
+- [Next.js + Supabase rule](https://github.com/grizzlykiwidev/grizzlykiwidev.github.io/blob/main/.cursor/rules/nextjs-supabase.mdc)
+- [AGENTS.md template](https://github.com/grizzlykiwidev/grizzlykiwidev.github.io/blob/main/AGENTS.md)
 
 ## Licence
 Personal and commercial use in your own projects. No resale or redistribution of the files.
