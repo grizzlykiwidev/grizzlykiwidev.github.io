@@ -1,0 +1,16 @@
+# Grizzly Kiwi Dev: Agent Rules packs
+
+> Tested Cursor rules (.cursor/rules/*.mdc), AGENTS.md and CLAUDE.md templates and prompts that make AI coding agents (Cursor, Claude Code, Codex, Windsurf, Copilot) write current code for Next.js, Supabase, FastAPI, React + Vite, Express 5, Tailwind v4, Godot 4, Unity 6 and Unreal Engine 5. Made by Grizzly Kiwi Dev (X: @GrizzlyKiwidev).
+
+## Products
+- [Agent Rules Starter (free)](https://grizzlykiwi.gumroad.com/l/rdubay): general Cursor rules, Next.js + Supabase rule, Godot 4 GDScript rule (Godot 3 → 4 table), AGENTS.md and CLAUDE.md templates, 10 prompts.
+- [Agent Rules Starter Pack (US$19 early bird)](https://grizzlykiwi.gumroad.com/l/xgdajx): 12 Cursor rules across 9 stacks, testing and git rules, pre-filled AGENTS.md templates, 30 prompts, 3 workflow guides, changelog and tested-with versions.
+
+## Source
+- [GitHub repo with the free files](https://github.com/sbeehre/agent-rules-starter)
+- [Godot 4 GDScript rule](https://github.com/sbeehre/agent-rules-starter/blob/main/.cursor/rules/godot4-gdscript.mdc)
+- [Next.js + Supabase rule](https://github.com/sbeehre/agent-rules-starter/blob/main/.cursor/rules/nextjs-supabase.mdc)
+- [AGENTS.md template](https://github.com/sbeehre/agent-rules-starter/blob/main/AGENTS.md)
+
+## Licence
+Personal and commercial use in your own projects. No resale or redistribution of the files.
