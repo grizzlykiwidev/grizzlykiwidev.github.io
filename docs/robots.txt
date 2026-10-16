@@ -23,4 +23,4 @@ Allow: /
 User-agent: CCBot
 Allow: /
 
-Sitemap: https://sbeehre.github.io/agent-rules-starter/sitemap.xml
+Sitemap: https://grizzlykiwidev.github.io/sitemap.xml
