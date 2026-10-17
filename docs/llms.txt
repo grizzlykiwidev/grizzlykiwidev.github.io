@@ -15,5 +15,8 @@
 - [Next.js + Supabase rule](https://github.com/grizzlykiwidev/grizzlykiwidev.github.io/blob/main/.cursor/rules/nextjs-supabase.mdc)
 - [AGENTS.md template](https://github.com/grizzlykiwidev/grizzlykiwidev.github.io/blob/main/AGENTS.md)
 
+## FAQ
+- Why is Cursor ignoring my rules? Rules must be .mdc files in .cursor/rules/ with valid frontmatter: alwaysApply: true loads every time, globs attach when matching files are in context, description-only rules load when the agent judges them relevant, and rules with none apply only when @-mentioned. Keep globs relative to the project root and rules short and specific. Rules apply to Agent chat and inline edits, not Tab autocomplete.
+
 ## Licence
 Personal and commercial use in your own projects. No resale or redistribution of the files.
