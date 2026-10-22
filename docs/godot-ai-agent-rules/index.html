@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Godot 4 AI Agent Rules for Cursor &amp; Claude Code (AGENTS.md, CLAUDE.md) | Grizzly Kiwi Dev</title>
+<meta name="description" content="Free Godot 4 Cursor rule plus how to set up AGENTS.md and CLAUDE.md so Cursor, Claude Code and Codex stop writing Godot 3 GDScript. Agent-ready Godot 4 templates from US$15.">
+<link rel="canonical" href="https://grizzlykiwidev.github.io/godot-ai-agent-rules/">
+<link rel="icon" href="../logo.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0d1117">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Grizzly Kiwi Dev">
+<meta property="og:title" content="Godot 4 AI Agent Rules for Cursor &amp; Claude Code (AGENTS.md, CLAUDE.md)">
+<meta property="og:description" content="A free Godot 4 Cursor rule and how to set up AGENTS.md and CLAUDE.md so AI agents stop writing Godot 3 code.">
+<meta property="og:url" content="https://grizzlykiwidev.github.io/godot-ai-agent-rules/">
+<meta property="og:image" content="https://grizzlykiwidev.github.io/og-cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@GrizzlyKiwidev">
+<style>
+:root{--bg:#0d1117;--panel:#161b22;--line:#30363d;--fg:#e6edf3;--muted:#8b949e;--acc:#9be15d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:var(--acc)}main{max-width:960px;margin:0 auto;padding:0 20px}
+header{display:flex;align-items:center;gap:12px;padding:20px 0}header img{width:44px;height:44px}header b{font-size:20px}header a{color:inherit;text-decoration:none}
+h1{font-size:clamp(30px,4.5vw,46px);line-height:1.1;letter-spacing:-1px;margin:32px 0 16px}h2{font-size:26px;margin:48px 0 14px}h3{margin:0 0 8px}
+code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.92em}
+pre{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;overflow-x:auto;font-size:14px}
+.lead{color:var(--muted);font-size:19px;max-width:760px}
+.btn{display:inline-block;padding:12px 22px;border-radius:10px;font-weight:700;text-decoration:none;margin:8px 10px 0 0}
+.btn.p{background:var(--acc);color:var(--bg)}.btn.s{border:1px solid var(--acc)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px}
+.price{color:var(--acc);font-weight:800;font-size:22px}
+details{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:10px 0}summary{cursor:pointer;font-weight:700}
+footer{color:var(--muted);padding:56px 0 40px;font-size:15px}
+</style>
+</head>
+<body><main>
+<header><a href="../"><img src="../logo.svg" alt="Grizzly Kiwi Dev logo"></a><b><a href="../">Grizzly Kiwi Dev</a></b></header>
+<h1>Godot 4 AI agent rules for Cursor and Claude Code</h1>
+<p class="lead">AI coding agents learned GDScript mostly from Godot 3 code, so they keep writing <code>yield</code>, <code>export var</code> and <code>KinematicBody2D</code> in Godot 4 projects. Three small files fix most of it: a Cursor rule, <code>AGENTS.md</code> and <code>CLAUDE.md</code>. This page explains each one and gives you a free Godot 4 rule to copy.</p>
+<a class="btn p" href="https://grizzlykiwi.gumroad.com/l/rdubay">Get the free starter pack</a><a class="btn s" href="#templates">See the Godot 4 templates</a>
+
+<h2>1. Cursor rules (<code>.cursor/rules/*.mdc</code>)</h2>
+<p>Cursor loads project rules from <code>.cursor/rules/</code>. Each <code>.mdc</code> file starts with frontmatter that decides when it applies. For Godot, scope the rule with <code>globs</code> so it loads whenever the agent touches GDScript or scenes, and keep it short and concrete. Agents follow an explicit "Godot 3 (wrong) &rarr; Godot 4 (use)" table much better than general advice. Legacy <code>.cursorrules</code> files are deprecated; move them into <code>.cursor/rules/</code>.</p>
+<p>Here is the core of the free rule. Save it as <code>.cursor/rules/godot4-gdscript.mdc</code> (the <a href="https://github.com/grizzlykiwidev/grizzlykiwidev.github.io/blob/main/.cursor/rules/godot4-gdscript.mdc">full version is on GitHub</a>):</p>
+<pre><code>---
+description: Godot 4.x GDScript conventions; prevents Godot 3 syntax
+globs: project.godot, **/*.gd, **/*.tscn
+alwaysApply: false
+---
+
+# Godot 4 GDScript
+
+## Godot 4 syntax only (agents often emit Godot 3)
+| Godot 3 (wrong) | Godot 4 (use) |
+|---|---|
+| `export var speed = 200` | `@export var speed := 200.0` |
+| `onready var x = $X` | `@onready var x: Node2D = $X` |
+| `yield(get_tree().create_timer(1), "timeout")` | `await get_tree().create_timer(1.0).timeout` |
+| `connect("pressed", self, "_on_pressed")` | `pressed.connect(_on_pressed)` |
+| `emit_signal("died")` | `died.emit()` |
+| `KinematicBody2D` / `Spatial` | `CharacterBody2D` / `Node3D` |
+| `move_and_slide(velocity, Vector2.UP)` | set `velocity`, then `move_and_slide()` |
+| `tool` | `@tool` |
+| `instance()` | `instantiate()` |
+
+## Style
+- Static typing everywhere: `var hp: int = 100`, `func take_damage(amount: int) -&gt; void:`.
+- snake_case for files, funcs, vars; PascalCase for `class_name` and nodes.
+- Declare signals with typed args: `signal health_changed(new_value: int)`.
+
+## Architecture
+- "Call down, signal up": parents call children's methods; children emit signals.
+- Use `%UniqueName` nodes or `@export` node references instead of fragile `$A/B/C` paths.
+- Physics movement in `_physics_process(delta)`; use Input Map actions, not raw keycodes.
+- Data in `Resource` subclasses instead of dictionaries.
+- Don't edit `.tscn`/`.tres` by hand beyond trivial changes.</code></pre>
+
+<h2>2. <code>AGENTS.md</code>: instructions for every agent</h2>
+<p><code>AGENTS.md</code> is a plain Markdown file in the project root, read by Codex, Cursor, Copilot, Windsurf and other agents. For a Godot 4 project it should say:</p>
+<ul>
+<li>the exact Godot version (e.g. 4.7) and that only Godot 4 syntax is allowed;</li>
+<li>the folder layout (<code>scenes/</code>, <code>scripts/</code>, <code>resources/</code>) and where new content goes;</li>
+<li>conventions: static typing, "call down, signal up", data in <code>Resource</code> files, Input Map actions instead of raw keys;</li>
+<li>how to check work: a headless run such as <code>godot --headless --path . --quit</code> or your test script;</li>
+<li>what not to do: hand-editing <code>.tscn</code> files beyond trivial changes, renaming autoloads, changing <code>project.godot</code> without asking.</li>
+</ul>
+
+<h2>3. <code>CLAUDE.md</code>: for Claude Code</h2>
+<p>Claude Code reads <code>CLAUDE.md</code> automatically at the start of every session. To stop two sets of instructions drifting apart, keep the real rules in <code>AGENTS.md</code> and make <code>CLAUDE.md</code> a short file that points to it and adds anything Claude-specific, such as which commands it may run without asking.</p>
+
+<h2>Quick setup checklist</h2>
+<ol>
+<li>Add <code>.cursor/rules/godot4-gdscript.mdc</code> (above).</li>
+<li>Add <code>AGENTS.md</code> with your Godot version, layout, conventions and check command.</li>
+<li>Add a short <code>CLAUDE.md</code> that points to <code>AGENTS.md</code>.</li>
+<li>Ask the agent to run the headless check after every change and fix any errors it prints.</li>
+</ol>
+<p>The free <a href="https://grizzlykiwi.gumroad.com/l/rdubay">Agent Rules Starter</a> (US$0) includes this rule plus general agent rules and ready-to-edit <code>AGENTS.md</code> and <code>CLAUDE.md</code> templates. The <a href="https://grizzlykiwi.gumroad.com/l/xgdajx">Agent Rules Starter Pack</a> (US$19) adds 12 rules across 9 stacks, including Unity 6 and Unreal Engine 5.</p>
+
+<h2 id="templates">Godot 4 templates that already have all of this</h2>
+<div class="cards">
+<div class="card"><h3>2D Platformer Template</h3><div class="price">US$15</div><p>Typed Godot 4.7 platformer with coyote time, jump buffering and wall jumps. Ships with <code>AGENTS.md</code>, <code>CLAUDE.md</code>, Cursor rules, <code>CODING_STANDARDS.md</code> and a one-command headless test.</p>
+<a class="btn p" href="https://grizzlykiwi.gumroad.com/l/prfejt">Gumroad</a><a class="btn s" href="https://grizzlykiwidev.itch.io/godot-4-agent-ready-2d-platformer-template">Demo on itch.io</a></div>
+<div class="card"><h3>Top-Down Roguelike Template</h3><div class="price">US$15</div><p>Typed Godot 4.7 roguelike with procedural rooms, 3 enemy types and a boss. Enemies, items and upgrades are Resource files an agent can add without touching code. Same agent files and tests.</p>
+<a class="btn p" href="https://grizzlykiwi.gumroad.com/l/mxkoe">Gumroad</a><a class="btn s" href="https://grizzlykiwidev.itch.io/godot-4-agent-ready-top-down-roguelike-template">Demo on itch.io</a></div>
+<div class="card"><h3>Agent-Ready Game Dev Bundle</h3><div class="price">US$29</div><p>Both templates plus the Agent Rules Starter Pack.</p>
+<a class="btn p" href="https://grizzlykiwi.gumroad.com/l/jhzfba">Get the bundle</a></div>
+</div>
+<p style="color:var(--muted)">List prices in USD. itch.io may show a temporary sale price.</p>
+
+<h2>FAQ</h2>
+<details><summary>What are the best Cursor rules for Godot 4?</summary><p>A glob-scoped .mdc rule in .cursor/rules/ (globs: project.godot, **/*.gd, **/*.tscn) that forces Godot 4 syntax (@export, @onready, await, signal.connect(), CharacterBody2D), static typing and &quot;call down, signal up&quot;. The free rule on this page does exactly that and includes a Godot 3 to 4 table.</p></details>
+<details><summary>What is AGENTS.md in a Godot project?</summary><p>AGENTS.md is a plain Markdown file in the project root that tells AI coding agents (Codex, Cursor, Copilot, Windsurf and others) how the project is built: the Godot version, folder layout, coding conventions, how to run checks and what not to touch.</p></details>
+<details><summary>What is CLAUDE.md and do I need it as well as AGENTS.md?</summary><p>CLAUDE.md is the file Claude Code loads automatically at the start of a session. Keep the real instructions in AGENTS.md and make CLAUDE.md short, pointing to AGENTS.md and adding anything Claude-specific, so the two never drift apart.</p></details>
+<details><summary>How do I stop AI agents writing Godot 3 code?</summary><p>Give the agent an explicit old to new table: yield to await, export var to @export var, KinematicBody2D to CharacterBody2D, instance() to instantiate(), string-based connect() to signal.connect(). Agents follow concrete replacement tables far more reliably than general advice. Then have the agent run a headless check so mistakes show up as errors.</p></details>
+<details><summary>How can an agent check GDScript without opening the editor?</summary><p>Run Godot headless, for example godot --headless --path . --quit to load the project and print parse errors, or your project's own test scene. Tell the agent in AGENTS.md to run it after every change.</p></details>
+<details><summary>Is there a Godot 4 template that already includes AGENTS.md, CLAUDE.md and Cursor rules?</summary><p>Yes. The Godot 4 Agent-Ready 2D Platformer Template and Top-Down Roguelike Template (US$15 each, or US$29 in a bundle with the Agent Rules Starter Pack) are typed Godot 4.7 projects that ship with AGENTS.md, CLAUDE.md, Cursor rules, CODING_STANDARDS.md and a one-command headless test.</p></details>
+
+<footer>Made by Sam, an indie dev in New Zealand, with help from Dave, Sam's AI helper. This page was drafted with AI help. &copy; 2026 Grizzly Kiwi Dev &middot; <a href="../">Home</a> &middot; <a href="https://x.com/GrizzlyKiwidev">@GrizzlyKiwidev</a> &middot; <a href="https://github.com/grizzlykiwidev/awesome-cursor-rules">Awesome Cursor Rules</a> &middot; <a href="../llms.txt">llms.txt</a></footer>
+</main>
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What are the best Cursor rules for Godot 4?","acceptedAnswer":{"@type":"Answer","text":"A glob-scoped .mdc rule in .cursor/rules/ (globs: project.godot, **/*.gd, **/*.tscn) that forces Godot 4 syntax (@export, @onready, await, signal.connect(), CharacterBody2D), static typing and 'call down, signal up'. The free rule on this page does exactly that and includes a Godot 3 to 4 table."}},{"@type":"Question","name":"What is AGENTS.md in a Godot project?","acceptedAnswer":{"@type":"Answer","text":"AGENTS.md is a plain Markdown file in the project root that tells AI coding agents (Codex, Cursor, Copilot, Windsurf and others) how the project is built: the Godot version, folder layout, coding conventions, how to run checks and what not to touch."}},{"@type":"Question","name":"What is CLAUDE.md and do I need it as well as AGENTS.md?","acceptedAnswer":{"@type":"Answer","text":"CLAUDE.md is the file Claude Code loads automatically at the start of a session. Keep the real instructions in AGENTS.md and make CLAUDE.md short, pointing to AGENTS.md and adding anything Claude-specific, so the two never drift apart."}},{"@type":"Question","name":"How do I stop AI agents writing Godot 3 code?","acceptedAnswer":{"@type":"Answer","text":"Give the agent an explicit old to new table: yield to await, export var to @export var, KinematicBody2D to CharacterBody2D, instance() to instantiate(), string-based connect() to signal.connect(). Agents follow concrete replacement tables far more reliably than general advice. Then have the agent run a headless check so mistakes show up as errors."}},{"@type":"Question","name":"How can an agent check GDScript without opening the editor?","acceptedAnswer":{"@type":"Answer","text":"Run Godot headless, for example godot --headless --path . --quit to load the project and print parse errors, or your project's own test scene. Tell the agent in AGENTS.md to run it after every change."}},{"@type":"Question","name":"Is there a Godot 4 template that already includes AGENTS.md, CLAUDE.md and Cursor rules?","acceptedAnswer":{"@type":"Answer","text":"Yes. The Godot 4 Agent-Ready 2D Platformer Template and Top-Down Roguelike Template (US$15 each, or US$29 in a bundle with the Agent Rules Starter Pack) are typed Godot 4.7 projects that ship with AGENTS.md, CLAUDE.md, Cursor rules, CODING_STANDARDS.md and a one-command headless test."}}]},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Grizzly Kiwi Dev","item":"https://grizzlykiwidev.github.io/"},{"@type":"ListItem","position":2,"name":"Godot 4 AI agent rules","item":"https://grizzlykiwidev.github.io/godot-ai-agent-rules/"}]}]</script>
+</body></html>
