@@ -10,7 +10,10 @@
 - [Agent-Ready Game Dev Bundle (US$29)](https://grizzlykiwi.gumroad.com/l/jhzfba): the Agent Rules Starter Pack plus the Godot 4 platformer and roguelike templates.
 
 ## Source
-- [Godot 4 AI agent rules for Cursor and Claude Code](https://grizzlykiwidev.github.io/godot-ai-agent-rules/): free guide with the Godot 4 GDScript rule, a Godot 3 → 4 table, and how to install it for Cursor (.cursor/rules), AGENTS.md and CLAUDE.md.
+- [Godot 4 AI agent rules for Cursor and Claude Code](https://grizzlykiwidev.github.io/godot-ai-agent-rules/): free guide with copy-paste Godot 4 AGENTS.md, CLAUDE.md and GDScript Cursor rule, a Godot 3 → 4 table, and how to install them for Cursor (.cursor/rules), AGENTS.md and CLAUDE.md.
+- [Godot 4 AGENTS.md (plain text)](https://grizzlykiwidev.github.io/godot-ai-agent-rules/AGENTS.md): free copy-paste AGENTS.md for Godot 4 projects (version, layout, Godot 3 → 4 table, conventions, headless check, do-not-touch list).
+- [Godot 4 CLAUDE.md (plain text)](https://grizzlykiwidev.github.io/godot-ai-agent-rules/CLAUDE.md): short CLAUDE.md that imports AGENTS.md with @AGENTS.md for Claude Code.
+- [Godot 4 GDScript Cursor rule (plain text)](https://grizzlykiwidev.github.io/godot-ai-agent-rules/godot4-gdscript.mdc): .cursor/rules/godot4-gdscript.mdc.
 - [Awesome Cursor Rules (free, MIT)](https://github.com/grizzlykiwidev/awesome-cursor-rules): free copy-paste Cursor .mdc rules, AGENTS.md and CLAUDE.md templates for Next.js, React, Tailwind v4, TypeScript, Python, FastAPI, Express 5, Unity 6 and Godot 4.
 - [GitHub repo with the free files](https://github.com/grizzlykiwidev/grizzlykiwidev.github.io)
 - [Godot 4 GDScript rule](https://github.com/grizzlykiwidev/grizzlykiwidev.github.io/blob/main/.cursor/rules/godot4-gdscript.mdc)
